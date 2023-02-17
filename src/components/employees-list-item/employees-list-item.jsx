@@ -1,9 +1,13 @@
-import './employees-list-item.css';
+import "./employees-list-item.css";
+import classNames from "classnames";
 
-const EmployeesListItem = ({name, salary, increase}) => {
-
+const EmployeesListItem = ({ name, salary, increase }) => {
   return (
-    <li className="list-group-item d-flex justify-content-between">
+    <li
+      className={classNames("list-group-item d-flex justify-content-between", {
+        increase: increase,
+      })}
+    >
       <span className="list-group-item-label">{name}</span>
       <input
         type="text"
@@ -14,7 +18,6 @@ const EmployeesListItem = ({name, salary, increase}) => {
         <button type="button" className="btn-cookie btn-sm ">
           <i className="fas fa-cookie"></i>
         </button>
-
         <button type="button" className="btn-trash btn-sm ">
           <i className="fas fa-trash"></i>
         </button>
