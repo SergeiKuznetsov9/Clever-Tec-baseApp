@@ -1,9 +1,8 @@
 import "./employees-add-form.css";
 
-const EmployeesAddForm = () => {
-  return (
+export const EmployeesAddForm = () => (
     <div className="app-add-form">
-      <h3>Добавьте нового сотрудника</h3>
+      <div className="app-add-form-hint">Добавьте нового сотрудника</div>
       <form className="add-form d-flex">
         <input
           type="text"
@@ -22,6 +21,3 @@ const EmployeesAddForm = () => {
       </form>
     </div>
   );
-};
-
-export default EmployeesAddForm;

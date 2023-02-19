@@ -1,17 +1,25 @@
 .app-add-form {
-  margin-top: 30px;
-  padding: 25px;
+  margin-top: 32px;
+  padding: 24px;
   background-color: #3d5a80;
   border-radius: 4px;
-  box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 15px 15px 30px #00000026;
   color: #fff;
 }
 
 .add-form {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .add-form input {
-  width: 350px;
-  margin-right: 20px;
+  max-width: 350px;
+  margin-right: 24px;
+}
+
+.app-add-form-hint {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 28px;
 }

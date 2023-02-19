@@ -1,16 +1,11 @@
-import EmployeesListItem from "../employees-list-item/employees-list-item";
+import { EmployeesListItem } from "../employees-list-item";
 import "./employees-list.css";
 import { employeesStack } from "../../mockData/employees";
 
-const EmployeesList = () => {
-  return (
-    <ul className="app-list list-group">
-      {employeesStack.map((employee) => {
-        const { id, ...itemProps } = employee;
-        return <EmployeesListItem key={id} {...itemProps} />;
-      })}
-    </ul>
-  );
-};
-
-export default EmployeesList;
+export const EmployeesList = () => (
+  <ul className="app-list list-group">
+    {employeesStack.map(({ id, ...itemProps }) => (
+      <EmployeesListItem key={id} {...itemProps} />
+    ))}
+  </ul>
+);
