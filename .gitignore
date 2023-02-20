@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /01_base-app/node_modules
+/02_second-homework/node_modules
 /.pnp
 .pnp.js
 
