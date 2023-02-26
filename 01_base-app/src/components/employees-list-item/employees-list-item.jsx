@@ -2,7 +2,7 @@ import "./employees-list-item.css";
 import classNames from "classnames";
 import { Component } from "react";
 
-class EmployeesListItem extends Component {
+export class EmployeesListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +20,8 @@ class EmployeesListItem extends Component {
   }
 
   render() {
+    const {name, salary} = this.props
+
     return (
       <li
         className={classNames(
@@ -31,13 +33,13 @@ class EmployeesListItem extends Component {
         )}
       >
         <span className="list-group-item-label" onClick={() => this.onRise()}>
-          {this.props.name}
+          {name}
         </span>
         <div className="d-flex">
           <input
             type="text"
             className="list-group-item-input"
-            defaultValue={this.props.salary + "$"}
+            defaultValue={salary + "$"}
           />
           <div className="d-flex justify-content-center align-items-center">
             <button
@@ -57,5 +59,3 @@ class EmployeesListItem extends Component {
     );
   }
 }
-
-export { EmployeesListItem };
