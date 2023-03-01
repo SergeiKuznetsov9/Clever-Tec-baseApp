@@ -28,34 +28,37 @@ export class EmployeesAddForm extends Component {
     }
   };
 
-  render = () => (
-    <div className="app-add-form">
-      <div className="app-add-form-hint">Добавьте нового сотрудника</div>
-      <form
-        className="add-form d-flex"
-        onSubmit={(event) => this.onSubmit(event)}
-      >
-        <input
-          type="text"
-          name="name"
-          value={this.state.name}
-          onChange={(event) => this.handleChange(event)}
-          className="form-control new-post-label"
-          placeholder="Как его зовут?"
-        />
-        <input
-          type="number"
-          name="salary"
-          value={this.state.salary}
-          onChange={(event) => this.handleChange(event)}
-          className="form-control new-post-label"
-          placeholder="З/П в $?"
-        />
+  render() {
+    const { name, salary } = this.state;
 
-        <button type="submit" className="btn btn-outline-light">
-          Добавить
-        </button>
-      </form>
-    </div>
-  );
+    return (
+      <div className="app-add-form">
+        <div className="app-add-form-hint">Добавьте нового сотрудника</div>
+        <form
+          className="add-form d-flex"
+          onSubmit={(event) => this.onSubmit(event)}
+        >
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={(event) => this.handleChange(event)}
+            className="form-control new-post-label"
+            placeholder="Как его зовут?"
+          />
+          <input
+            type="number"
+            name="salary"
+            value={salary}
+            onChange={(event) => this.handleChange(event)}
+            className="form-control new-post-label"
+            placeholder="З/П в $?"
+          />
+          <button type="submit" className="btn btn-outline-light">
+            Добавить
+          </button>
+        </form>
+      </div>
+    );
+  }
 }

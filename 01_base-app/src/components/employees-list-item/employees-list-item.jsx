@@ -21,7 +21,7 @@ export class EmployeesListItem extends Component {
   }
 
   render() {
-    const { name, salary } = this.props;
+    const { name, salary, deleteItem } = this.props;
 
     return (
       <li
@@ -53,7 +53,7 @@ export class EmployeesListItem extends Component {
             <button
               type="button"
               className="btn-trash btn-sm "
-              onClick={() => this.props.deleteItem(this.props.id)}
+              onClick={() => deleteItem(this.props.id)}
             >
               <i className="fas fa-trash"></i>
             </button>
