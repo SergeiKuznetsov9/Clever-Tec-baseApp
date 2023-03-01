@@ -1,11 +1,22 @@
-import { EmployeesListItem } from "../employees-list-item";
-import "./employees-list.css";
-import { employeesStack } from "../../mockData/employees";
+import { Component } from "react";
 
-export const EmployeesList = () => (
-  <ul className="app-list list-group">
-    {employeesStack.map(({ id, ...itemProps }) => (
-      <EmployeesListItem key={id} {...itemProps} />
-    ))}
-  </ul>
-);
+import { EmployeesListItem } from "../employees-list-item";
+
+import "./employees-list.css";
+
+export class EmployeesList extends Component {
+  render() {
+    const { employees, deleteItem } = this.props;
+    return (
+      <ul className="app-list list-group">
+        {employees.map((employee) => (
+          <EmployeesListItem
+            key={employee.id}
+            {...employee}
+            deleteItem={deleteItem}
+          />
+        ))}
+      </ul>
+    );
+  }
+}

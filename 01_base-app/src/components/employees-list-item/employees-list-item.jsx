@@ -1,6 +1,7 @@
-import "./employees-list-item.css";
-import classNames from "classnames";
 import { Component } from "react";
+import classNames from "classnames";
+
+import "./employees-list-item.css";
 
 export class EmployeesListItem extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ export class EmployeesListItem extends Component {
   }
 
   render() {
-    const {name, salary} = this.props
+    const { name, salary } = this.props;
 
     return (
       <li
@@ -49,7 +50,11 @@ export class EmployeesListItem extends Component {
             >
               <i className="fas fa-cookie"></i>
             </button>
-            <button type="button" className="btn-trash btn-sm ">
+            <button
+              type="button"
+              className="btn-trash btn-sm "
+              onClick={() => this.props.deleteItem(this.props.id)}
+            >
               <i className="fas fa-trash"></i>
             </button>
             <i className="fas fa-star"></i>
