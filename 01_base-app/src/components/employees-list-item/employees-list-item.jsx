@@ -1,6 +1,7 @@
-import "./employees-list-item.css";
-import classNames from "classnames";
 import { Component } from "react";
+import classNames from "classnames";
+
+import "./employees-list-item.css";
 
 export class EmployeesListItem extends Component {
   constructor(props) {
@@ -20,15 +21,16 @@ export class EmployeesListItem extends Component {
   }
 
   render() {
-    const {name, salary} = this.props
+    const { name, salary, deleteItem, id } = this.props;
+    const { rise, bonus } = this.state;
 
     return (
       <li
         className={classNames(
           "list-group-item d-flex justify-content-between",
           {
-            increase: this.state.bonus,
-            like: this.state.rise,
+            increase: bonus,
+            like: rise,
           }
         )}
       >
@@ -49,7 +51,11 @@ export class EmployeesListItem extends Component {
             >
               <i className="fas fa-cookie"></i>
             </button>
-            <button type="button" className="btn-trash btn-sm ">
+            <button
+              type="button"
+              className="btn-trash btn-sm "
+              onClick={() => deleteItem(id)}
+            >
               <i className="fas fa-trash"></i>
             </button>
             <i className="fas fa-star"></i>
