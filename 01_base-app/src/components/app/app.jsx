@@ -13,9 +13,21 @@ export class App extends Component {
     super(props);
     this.state = {
       data: [
-        { id: 1, name: "John Rembo", salary: 800, increase: false },
-        { id: 2, name: "Lyon Gauthier", salary: 3000, increase: true },
-        { id: 3, name: "Gabe Walker", salary: 5000, increase: false },
+        { id: 1, name: "John Rembo", salary: 800, increase: false, rise: true },
+        {
+          id: 2,
+          name: "Lyon Gauthier",
+          salary: 3000,
+          increase: true,
+          rise: false,
+        },
+        {
+          id: 3,
+          name: "Gabe Walker",
+          salary: 5000,
+          increase: false,
+          rise: false,
+        },
       ],
       maxId: 4,
     };
@@ -31,6 +43,7 @@ export class App extends Component {
           name,
           salary,
           increase: false,
+          rise: false,
         },
       ],
     };
@@ -47,15 +60,35 @@ export class App extends Component {
     });
   }
 
+  onToggleProp(propType, id) {
+    const newEmployeesArray = this.state.data.map((employee) => {
+      if (employee.id === id) employee[propType] = !employee[propType];
+      return employee;
+    });
+
+    this.setState(() => ({
+      data: newEmployeesArray,
+    }));
+  }
+
+  defineAmountOfGetedBonus(employeesList) {
+    return employeesList.filter((employee) => employee.increase === true)
+      .length;
+  }
+
   render = () => (
     <div className="app">
-      <AppInfo />
+      <AppInfo
+        totalAmount={this.state.data.length}
+        willGetBonusAmount={this.defineAmountOfGetedBonus(this.state.data)}
+      />
       <div className="search-panel">
         <SearchPanel />
         <AppFilter />
       </div>
       <EmployeesList
         employees={this.state.data}
+        onToggleProp={(propType, id) => this.onToggleProp(propType, id)}
         deleteItem={(id) => this.deleteItem(id)}
       />
       <EmployeesAddForm
