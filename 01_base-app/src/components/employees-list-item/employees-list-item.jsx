@@ -4,37 +4,27 @@ import classNames from "classnames";
 import "./employees-list-item.css";
 
 export class EmployeesListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rise: false,
-      bonus: this.props.increase,
-    };
-  }
-
-  onRise() {
-    this.setState((prevState) => ({ rise: !prevState.rise }));
-  }
-
-  onBonus() {
-    this.setState((prevState) => ({ bonus: !prevState.bonus }));
-  }
-
   render() {
-    const { name, salary, deleteItem, id } = this.props;
-    const { rise, bonus } = this.state;
+    const { id, name, salary, deleteItem, rise, increase, onToggleProp } =
+      this.props;
 
     return (
       <li
         className={classNames(
           "list-group-item d-flex justify-content-between",
           {
-            increase: bonus,
+            increase,
             like: rise,
           }
         )}
       >
-        <span className="list-group-item-label" onClick={() => this.onRise()}>
+        <span
+          className="list-group-item-label"
+          data-toggle="rise"
+          onClick={(event) =>
+            onToggleProp(event.currentTarget.getAttribute("data-toggle"), id)
+          }
+        >
           {name}
         </span>
         <div className="d-flex">
@@ -47,7 +37,13 @@ export class EmployeesListItem extends Component {
             <button
               type="button"
               className="btn-cookie btn-sm "
-              onClick={() => this.onBonus()}
+              data-toggle="increase"
+              onClick={(event) =>
+                onToggleProp(
+                  event.currentTarget.getAttribute("data-toggle"),
+                  id
+                )
+              }
             >
               <i className="fas fa-cookie"></i>
             </button>
