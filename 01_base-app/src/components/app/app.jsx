@@ -29,6 +29,8 @@ export class App extends Component {
           rise: false,
         },
       ],
+      term: "",
+      filter: "all",
       maxId: 4,
     };
   }
@@ -76,24 +78,65 @@ export class App extends Component {
       .length;
   }
 
-  render = () => (
-    <div className="app">
-      <AppInfo
-        totalAmount={this.state.data.length}
-        willGetBonusAmount={this.defineAmountOfGetedBonus(this.state.data)}
-      />
-      <div className="search-panel">
-        <SearchPanel />
-        <AppFilter />
+  filterPost = (items, filter) => {
+    switch (filter) {
+      case "rise":
+        return items.filter((item) => item.rise);
+
+      case "moreThan1000":
+        return items.filter((item) => item.salary > 1000);
+      default:
+        return items;
+    }
+  };
+
+  onFilterSelect = (filter) => {
+    this.setState({ filter });
+  };
+
+  searchEmployee(items, term) {
+    if (term.length === 0) {
+      return items;
+    }
+
+    return items.filter((item) => {
+      return item.name.toLowerCase().includes(term.trim().toLowerCase());
+    });
+  }
+
+  onUpdateSearch = (term) => {
+    this.setState({ term });
+  };
+
+  render() {
+    const { data, term, filter } = this.state;
+    const employeesForRender = this.filterPost(
+      this.searchEmployee(data, term),
+      filter
+    );
+
+    return (
+      <div className="app">
+        <AppInfo
+          totalAmount={data.length}
+          willGetBonusAmount={this.defineAmountOfGetedBonus(data)}
+        />
+        <div className="search-panel">
+          <SearchPanel
+            onUpdateSearch={this.onUpdateSearch}
+            onFilterSelect={this.onFilterSelect}
+          />
+          <AppFilter setFilter={this.onFilterSelect} actualFilter={filter} />
+        </div>
+        <EmployeesList
+          employees={employeesForRender}
+          onToggleProp={(propType, id) => this.onToggleProp(propType, id)}
+          deleteItem={(id) => this.deleteItem(id)}
+        />
+        <EmployeesAddForm
+          addItem={(name, salary) => this.addItem(name, salary)}
+        />
       </div>
-      <EmployeesList
-        employees={this.state.data}
-        onToggleProp={(propType, id) => this.onToggleProp(propType, id)}
-        deleteItem={(id) => this.deleteItem(id)}
-      />
-      <EmployeesAddForm
-        addItem={(name, salary) => this.addItem(name, salary)}
-      />
-    </div>
-  );
+    );
+  }
 }
