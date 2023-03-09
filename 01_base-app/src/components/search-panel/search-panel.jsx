@@ -19,13 +19,15 @@ export class SearchPanel extends Component {
     this.props.onUpdateSearch(searchValue);
   }
 
-  render = () => (
-    <input
-      type="text"
-      className="form-control search-input"
-      placeholder="Найти сотрудника"
-      value={this.state.searchValue}
-      onChange={(event) => this.handleChange(event.target.value)}
-    />
-  );
+  render() {
+    return (
+      <input
+        type="text"
+        className="form-control search-input"
+        placeholder="Найти сотрудника"
+        value={this.state.searchValue}
+        onChange={(event) => this.handleChange(event.target.value)}
+      />
+    );
+  }
 }

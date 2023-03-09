@@ -99,9 +99,9 @@ export class App extends Component {
       return items;
     }
 
-    return items.filter((item) => {
-      return item.name.toLowerCase().includes(term.trim().toLowerCase());
-    });
+    return items.filter((item) =>
+      item.name.toLowerCase().includes(term.trim().toLowerCase())
+    );
   }
 
   onUpdateSearch = (term) => {
