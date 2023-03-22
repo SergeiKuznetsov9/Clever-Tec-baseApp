@@ -79,7 +79,7 @@ class CharInfo extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, comics } = char;
-  const isImageFound = thumbnail.includes("image_not_available") ? false : true;
+  const isImageFound = !thumbnail.includes("image_not_available");
   const noComicsMessage = 'There is no comics with this character';
 
   return (

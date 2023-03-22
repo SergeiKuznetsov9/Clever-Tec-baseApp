@@ -51,9 +51,7 @@ class CharList extends Component {
       <div className="char__list">
         <ul className="char__grid">
           {this.state.chars.map((char) => {
-            const isImageFound = char.thumbnail.includes("image_not_available")
-              ? false
-              : true;
+            const isImageFound = !char.thumbnail.includes("image_not_available")              
 
             return (
               <li

@@ -82,7 +82,7 @@ class RandomChar extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail } = char;
-  const isImageFound = thumbnail.includes("image_not_available") ? false : true;
+  const isImageFound = !thumbnail.includes("image_not_available");
   const noDescription = "There is no description for this character";
   const doDescriptionForView = (description) =>
     description.length > 209 ? `${description.slice(0, 210)}...` : description;
