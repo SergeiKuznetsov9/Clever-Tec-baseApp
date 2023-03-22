@@ -16,7 +16,14 @@
     &__img {
         width: 180px;
         height: 180px;
+    }
+
+    &__img-found {
         object-fit: cover;
+    }
+
+    &__img-not-found {
+        object-fit: contain;
     }
 
     &__info {
