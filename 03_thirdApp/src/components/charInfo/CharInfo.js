@@ -8,9 +8,6 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 import "./charInfo.scss";
 
 class CharInfo extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     char: null,
