@@ -18,7 +18,6 @@ class CharList extends Component {
 
   componentDidMount() {
     this.updateChars();
-    console.log(this.cardsElRefs);
   }
 
   updateChars = () => {
