@@ -11,10 +11,14 @@ class CharList extends Component {
     loadingNewError: false,
     isEnd: false,
     offset: 219,
+    selectedCharIndex: null,
   };
+
+  cardsElRefs = [];
 
   componentDidMount() {
     this.updateChars();
+    console.log(this.cardsElRefs);
   }
 
   updateChars = () => {
@@ -62,22 +66,37 @@ class CharList extends Component {
     });
   };
 
-  render() {
-    const { onCharselected } = this.props;
+  setInputRef = (el) => {
+    this.cardsElRefs.push(el);
+  };
 
+  handleCharSelect = (charId, index) => {
+    this.props.onCharselected(charId);
+
+    if (this.state.selectedCharIndex !== null) {
+      this.cardsElRefs[this.state.selectedCharIndex].classList.remove(
+        "char__item_selected"
+      );
+    }
+    this.cardsElRefs[index].classList.add("char__item_selected");
+    this.setState({ selectedCharIndex: index });
+  };
+
+  render() {
     return (
       <div className="char__list">
         <ul className="char__grid">
-          {this.state.chars.map((char) => {
+          {this.state.chars.map((char, index) => {
             const isImageFound = !char.thumbnail.includes(
               "image_not_available"
             );
 
             return (
               <li
+                ref={this.setInputRef}
                 className="char__item"
                 key={char.id}
-                onClick={() => onCharselected(char.id)}
+                onClick={() => this.handleCharSelect(char.id, index)}
               >
                 <img
                   src={char.thumbnail}
