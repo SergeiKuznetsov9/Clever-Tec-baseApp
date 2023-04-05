@@ -1,39 +1,34 @@
-import { Component } from "react";
+import { useState } from "react";
 import { operationTypes } from "./operationTypes";
 import "./App.css";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { counter: props.counter };
-  }
+const App = () => {
+  const [counter, setCounter] = useState(0);
 
-  increment = (prevState) => {
-    if (prevState.counter < 10) return { counter: prevState.counter + 1 };
+  const increment = (counter) => {
+    if (counter < 10) setCounter((counter) => counter + 1);
   };
 
-  decrement = (prevState) => {
-    if (prevState.counter > -10) return { counter: prevState.counter - 1 };
+  const decrement = (counter) => {
+    if (counter > -10) setCounter((counter) => counter - 1);
   };
 
-  handleClick = (operationType) => {
+  const handleClick = (operationType) => {
     switch (operationType) {
       case operationTypes.increment:
-        this.setState(this.increment);
+        increment(counter);
         break;
 
       case operationTypes.decrement:
-        this.setState(this.decrement);
+        decrement(counter);
         break;
 
       case operationTypes.random:
-        this.setState({
-          counter: +(Math.random() * (10 - -10) + -10).toFixed(0),
-        });
+        setCounter(+(Math.random() * (10 - -10) + -10).toFixed(0));
         break;
 
       case operationTypes.reset:
-        this.setState({ counter: 0 });
+        setCounter(0);
         break;
 
       default:
@@ -41,26 +36,20 @@ class App extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="app">
-        <div className="counter">{this.state.counter}</div>
-        <div className="controls">
-          <button onClick={() => this.handleClick(operationTypes.increment)}>
-            INC
-          </button>
-          <button onClick={() => this.handleClick(operationTypes.decrement)}>
-            DEC
-          </button>
-          <button onClick={() => this.handleClick(operationTypes.random)}>
-            RND
-          </button>
-          <button onClick={() => this.handleClick(operationTypes.reset)}>
-            RESET
-          </button>
-        </div>
+  return (
+    <div className="app">
+      <div className="counter">{counter}</div>
+      <div className="controls">
+        <button onClick={() => handleClick(operationTypes.increment)}>
+          INC
+        </button>
+        <button onClick={() => handleClick(operationTypes.decrement)}>
+          DEC
+        </button>
+        <button onClick={() => handleClick(operationTypes.random)}>RND</button>
+        <button onClick={() => handleClick(operationTypes.reset)}>RESET</button>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 export default App;
