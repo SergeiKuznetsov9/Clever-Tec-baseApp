@@ -1,43 +1,21 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { api } from "../../api";
 import Skeleton from "../skeleton/Skeleton";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import "./charInfo.scss";
+import { useHttp } from "../../hooks/useHttp";
 
 const CharInfo = ({ charId }) => {
   const [char, setChar] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const { loading, request, error, clearError } = useHttp();
 
   useEffect(() => {
-    updateChar();
-  }, [charId]);
-
-  const updateChar = () => {
-    if (!charId) {
-      return;
+    if (charId) {
+      request("characters", "getCharacter", charId).then(setChar);
     }
-
-    onCharLoading();
-    api.characters.getCharacter(charId).then(onCharLoaded, onError);
-  };
-
-  const onCharLoading = () => {
-    setLoading(true);
-  };
-
-  const onCharLoaded = (char) => {
-    setChar(char);
-    setLoading(false);
-  };
-
-  const onError = () => {
-    setLoading(false);
-    setError(true);
-  };
+  }, [charId]);
 
   const skeleton = char || loading || error ? null : <Skeleton />;
   const errorMessage = error ? <ErrorMessage /> : null;

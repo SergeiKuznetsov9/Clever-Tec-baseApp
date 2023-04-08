@@ -1,61 +1,29 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api";
 import "./charList.scss";
+import { useHttp } from "../../hooks/useHttp";
 
 const CharList = ({ onCharselected }) => {
+  const { loading, request, error, clearError } = useHttp();
   const [chars, setChars] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [loadingNew, setLoadingNew] = useState(false);
-  const [loadingNewError, setLoadingNewError] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [offset, setOffset] = useState(219);
   const [selectedCharIndex, setSelectedCharIndex] = useState(null);
-
   const cardsElRefs = [];
 
   useEffect(() => {
-    updateChars();
+    request("characters", "getAllCharacters").then(setChars);
   }, []);
 
-  const updateChars = () => {
-    setLoading(true);
-    api.characters.getAllCharacters().then(onCharsLoaded, onError);
-  };
-
   const getNewChars = () => {
-    setLoadingNew(true);
-
-    api.characters
-      .getAllCharacters(offset)
-      .then(onNewCharsLoaded, onLoadingNewError);
+    request("characters", "getAllCharacters", offset).then(onNewCharsLoaded);
   };
 
   const onNewCharsLoaded = (newChars) => {
     const isEnd = newChars.length < 9;
-
     setChars([...chars, ...newChars]);
-    setLoadingNew(false);
-    setError(false);
-
     setOffset(offset + 9);
     setIsEnd(isEnd);
-  };
-
-  const onLoadingNewError = () => {
-    setLoadingNew(false);
-    setError(true);
-  };
-
-  const onCharsLoaded = (chars) => {
-    setChars(chars);
-    setLoading(false);
-    setError(false);
-  };
-
-  const onError = () => {
-    setLoading(false);
-    setError(true);
   };
 
   const setInputRef = (el) => {
@@ -99,7 +67,7 @@ const CharList = ({ onCharselected }) => {
         <button
           className="button button__main button__long"
           onClick={getNewChars}
-          disabled={loadingNew}
+          disabled={loading}
         >
           <div className="inner">load more</div>
         </button>

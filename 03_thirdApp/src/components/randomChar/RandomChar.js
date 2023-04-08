@@ -1,42 +1,24 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import { api } from "../../api";
 import mjolnir from "../../resources/img/mjolnir.png";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Spinner from "../spinner/Spinner";
+import { useHttp } from "../../hooks/useHttp";
 
 import "./randomChar.scss";
 
 const RandomChar = () => {
   const [char, setChar] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { loading, request, error, clearError } = useHttp();
 
   useEffect(() => {
     updateChar();
   }, []);
 
   const updateChar = () => {
-    setLoading(true);
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-    api.characters.getCharacter(id).then(onCharLoaded, onError);
-  };
-
-  const onCharLoading = () => {
-    setLoading(true);
-    setError(false);
-  };
-
-  const onCharLoaded = (char) => {
-    setChar(char);
-    setLoading(false);
-    setError(false);
-  };
-
-  const onError = () => {
-    setLoading(false);
-    setError(false);
+    request("characters", "getCharacter", id).then(setChar);
   };
 
   const errorMessage = error ? <ErrorMessage /> : null;
@@ -71,7 +53,7 @@ const RandomChar = () => {
 
 const View = ({ char }) => {
   const { name, description, thumbnail } = char;
-  const isImageFound = !thumbnail.includes("image_not_available");
+  const isImageFound = !thumbnail?.includes("image_not_available");
   const noDescription = "There is no description for this character";
   const doDescriptionForView = (description) =>
     description.length > 209 ? `${description.slice(0, 210)}...` : description;
