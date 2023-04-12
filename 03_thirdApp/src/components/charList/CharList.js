@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { api } from "../../api";
 import "./charList.scss";
 import { useHttp } from "../../hooks/useHttp";
 
 const CharList = ({ onCharselected }) => {
-  const { loading, request, error, clearError } = useHttp();
+  const { loading, request } = useHttp();
   const [chars, setChars] = useState([]);
   const [isEnd, setIsEnd] = useState(false);
   const [offset, setOffset] = useState(219);
@@ -13,6 +12,7 @@ const CharList = ({ onCharselected }) => {
 
   useEffect(() => {
     request("characters", "getAllCharacters").then(setChars);
+    // eslint-disable-next-line react-hooks/exhaustive-deps    
   }, []);
 
   const getNewChars = () => {

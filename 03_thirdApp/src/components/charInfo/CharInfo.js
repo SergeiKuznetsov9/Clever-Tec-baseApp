@@ -9,12 +9,13 @@ import { useHttp } from "../../hooks/useHttp";
 
 const CharInfo = ({ charId }) => {
   const [char, setChar] = useState(null);
-  const { loading, request, error, clearError } = useHttp();
+  const { loading, request, error } = useHttp();
 
   useEffect(() => {
     if (charId) {
       request("characters", "getCharacter", charId).then(setChar);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [charId]);
 
   const skeleton = char || loading || error ? null : <Skeleton />;

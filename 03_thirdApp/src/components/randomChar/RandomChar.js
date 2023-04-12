@@ -10,10 +10,11 @@ import "./randomChar.scss";
 
 const RandomChar = () => {
   const [char, setChar] = useState({});
-  const { loading, request, error, clearError } = useHttp();
+  const { loading, request, error } = useHttp();
 
   useEffect(() => {
     updateChar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateChar = () => {
