@@ -61,7 +61,7 @@ const View = ({ char }) => {
       <div className="char__descr">{description}</div>
       <div className="char__comics">Comics:</div>
       <ul className="char__comics-list">
-        {comics?.items.length > 0 ? (
+        {comics?.items.length ? (
           [...comics.items].splice(10, comics.items.length - 10).map((item) => (
             <li className="char__comics-item" key={item.name}>
               <a href={item.resourceURI}>{item.name}</a>

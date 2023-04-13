@@ -13,6 +13,7 @@ export const useHttp = () => {
       return result;
     };
     const onError = (error) => setError(error);
+    
     return api[requestsSection][requestName](
       payload ? payload : undefined
     ).then(onSuccess, onError);
