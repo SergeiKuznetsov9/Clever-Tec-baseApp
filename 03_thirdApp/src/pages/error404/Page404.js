@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage";
 import "./Page404.scss";
 
-export const Page404 = () => (
+const Page404 = () => (
   <div>
     <ErrorMessage />
     <p className="page404__message">Page doesn't exist</p>
@@ -12,3 +12,5 @@ export const Page404 = () => (
     </Link>
   </div>
 );
+
+export default Page404;
