@@ -1,4 +1,4 @@
-export const _normalizeCharacter = (res) => ({
+export const _normalizeResponse = (res) => ({
   ...res,
-  thumbnail: `${res.thumbnail.path}.${res.thumbnail.extension}`
+  thumbnail: `${res.thumbnail.path}.${res.thumbnail.extension}`,
 });
