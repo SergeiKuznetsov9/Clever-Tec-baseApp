@@ -1,0 +1,27 @@
+.container {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 49%;
+  padding: 8px;
+  background-color: antiquewhite;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin-bottom: 8px;
+
+    strong {
+      font-size: 16px;
+      color: red;
+    }
+  }
+
+  .buttonSection {
+    display: flex;
+    justify-content: space-between;
+
+  }
+}
