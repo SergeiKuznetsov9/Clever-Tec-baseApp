@@ -1,0 +1,12 @@
+.root {
+  max-width: 1280px;
+  width: 100%;
+  margin: auto;
+  padding: 24px;
+  background-color: indigo;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
