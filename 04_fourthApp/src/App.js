@@ -1,24 +1,17 @@
 import { createContext, useReducer } from "react";
 import { Main } from "./pages/main/Main";
-
-const initialState = 0;
-const reducer = (state, action) => {
-  switch (action) {
-    case "increment":
-      return state + 1;
-
-    case "decrement":
-      return state - 1;
-
-    default:
-      return state;
-  }
-};
+import {
+  singleCounterInitialState,
+  singleCounterReducer,
+} from "./store/singleCounterReducer/singleCounterReducer";
 
 export const CounterContext = createContext();
 
 function App() {
-  const [count, dispatch] = useReducer(reducer, initialState);
+  const [count, dispatch] = useReducer(
+    singleCounterReducer,
+    singleCounterInitialState
+  );
 
   return (
     <CounterContext.Provider value={{ count, dispatch }}>

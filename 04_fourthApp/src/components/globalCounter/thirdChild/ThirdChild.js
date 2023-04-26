@@ -1,6 +1,10 @@
 import React, { useContext } from "react";
 import { CounterContext } from "../../../App";
 import styles from "./ThirdChild.module.scss";
+import {
+  decrement,
+  increment,
+} from "../../../store/singleCounterReducer/actionCreator";
 
 export const ThirdChild = () => {
   const { count, dispatch } = useContext(CounterContext);
@@ -16,8 +20,8 @@ export const ThirdChild = () => {
       <p className={styles.counterValue}>
         Counter value is <strong>{count}</strong>
       </p>
-      <button onClick={() => dispatch("increment")}>Increment</button>
-      <button onClick={() => dispatch("decrement")}>Decrement</button>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { CounterContext } from "../../../App";
 
 export const FirstChild = () => {
   const { count } = useContext(CounterContext);
+  
   return (
     <div className={styles.root}>
       <h3>First component</h3>

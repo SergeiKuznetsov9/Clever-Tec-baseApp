@@ -4,6 +4,7 @@ import styles from "./SecondChild.module.scss";
 
 export const SecondChild = () => {
   const { count } = useContext(CounterContext);
+  
   return (
     <div className={styles.root}>
       <h3>Second component</h3>
