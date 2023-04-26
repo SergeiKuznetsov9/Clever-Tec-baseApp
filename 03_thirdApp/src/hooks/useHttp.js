@@ -12,7 +12,10 @@ export const useHttp = () => {
       setLoading(false);
       return result;
     };
-    const onError = (error) => setError(error);
+    const onError = (error) => {
+      setLoading(false);
+      setError(error)
+    };
     
     return api[requestsSection][requestName](
       payload ? payload : undefined
