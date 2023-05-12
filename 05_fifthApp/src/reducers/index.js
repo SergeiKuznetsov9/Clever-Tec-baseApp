@@ -1,26 +1,26 @@
 const initialState = {
   heroes: [], //heroes.json
-  heroesLoadingStatus: 'idle', //ничего не происходит
+  heroesLoadingStatus: "idle", //ничего не происходит
   filters: [], //heroes.json
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'HEROES_FETCHING':
+    case "HEROES_FETCHING":
       return {
         ...state,
-        heroesLoadingStatus: 'loading',
+        heroesLoadingStatus: "loading",
       };
-    case 'HEROES_FETCHED':
+    case "HEROES_FETCHED":
       return {
         ...state,
         heroes: action.payload,
-        heroesLoadingStatus: 'idle',
+        heroesLoadingStatus: "idle",
       };
-    case 'HEROES_FETCHING_ERROR':
+    case "HEROES_FETCHING_ERROR":
       return {
         ...state,
-        heroesLoadingStatus: 'error',
+        heroesLoadingStatus: "error",
       };
     default:
       return state;

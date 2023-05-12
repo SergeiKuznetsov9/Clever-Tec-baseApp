@@ -34,7 +34,7 @@ const HeroesAddForm = () => {
           className="form-control"
           id="text"
           placeholder="Что я умею?"
-          style={{ height: '130px' }}
+          style={{ height: "130px" }}
         />
       </div>
 
