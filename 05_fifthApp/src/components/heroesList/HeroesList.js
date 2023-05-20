@@ -1,33 +1,43 @@
-import { useHttp } from "../../hooks/http.hook";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
+import { useSelector } from "react-redux";
 
-import {
-  heroesFetching,
-  heroesFetched,
-  heroesFetchingError,
-} from "../../actions";
-import HeroesListItem from "../heroesListItem/HeroesListItem";
-import Spinner from "../spinner/Spinner";
+import { useHttp } from "../../hooks/http.hook";
+import { HeroesListItem } from "../heroesListItem/HeroesListItem";
+import { heroRemoving, heroRemoved, heroRemovingError } from "../../actions";
+import { Spinner } from "../spinner/Spinner";
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
-const HeroesList = () => {
-  const { heroes, heroesLoadingStatus } = useSelector((state) => state);
-  const dispatch = useDispatch();
+export const HeroesList = () => {
+  const { heroesLoadingStatus, activeFilters } = useSelector((state) => state);
+  const heroes = useSelector((state) => {
+    if (activeFilters[0] === "all") {
+      return state.heroes;
+    }
+
+    return state.heroes.filter((hero) => activeFilters.includes(hero.element));
+  });
   const { request } = useHttp();
 
-  useEffect(() => {
-    dispatch(heroesFetching());
-    request("http://localhost:3001/heroes")
-      .then((data) => dispatch(heroesFetched(data)))
-      .catch(() => dispatch(heroesFetchingError()));
+  const onDelete = useCallback(
+    (id) => {
+      heroRemoving();
+      request(`http://localhost:3001/heroes/${id}`, "DELETE")
+        .then(() => {
+          const newHeroesArray = heroes.filter((hero) => hero.id !== id);
+          heroRemoved(newHeroesArray);
+        })
+        .catch(() => {
+          console.log("Произошла ошибка удаления");
+          heroRemovingError();
+        });
+    },
 
-    // eslint-disable-next-line
-  }, []);
+    [request, heroes]
+  );
 
   if (heroesLoadingStatus === "loading") {
     return <Spinner />;
@@ -41,12 +51,12 @@ const HeroesList = () => {
     }
 
     return arr.map(({ id, ...props }) => {
-      return <HeroesListItem key={id} {...props} />;
+      return (
+        <HeroesListItem key={id} {...props} onDelete={() => onDelete(id)} />
+      );
     });
   };
 
   const elements = renderHeroesList(heroes);
   return <ul>{elements}</ul>;
 };
-
-export default HeroesList;
