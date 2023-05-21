@@ -1,8 +1,11 @@
-import { legacy_createStore as createStore } from "redux";
-import { reducer } from "../reducers";
+import { legacy_createStore as createStore, combineReducers, applyMiddleware } from "redux";
+import { heroes } from "../reducers/heroes";
+import { filters } from "../reducers/filters";
+import ReduxThunk from 'redux-thunk';
 
-const store = createStore(
-  reducer,
+const store = createStore(  
+  combineReducers({heroes, filters}),
+  applyMiddleware(ReduxThunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

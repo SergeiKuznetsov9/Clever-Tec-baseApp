@@ -1,17 +1,6 @@
-import { bindActionCreators } from "redux";
-import store from "../store";
-import * as actions from "./actions";
-
-export const {
-  heroCreated,
-  heroCreating,
-  heroCreatingError,
-  heroRemoved,
-  heroRemoving,
-  heroRemovingError,
-  heroesFetched,
-  heroesFetching,
-  heroesFetchingError,
-  optionsFetched,
-  toggleFilter,
-} = bindActionCreators(actions, store.dispatch);
+export {
+  fetchHeroesThunk,
+  heroCreatingThunk,
+  heroRemovingThunk,
+} from "./heroes-actions";
+export { fetchFiltersThunk, addFilterThunk } from "./filters-actions";

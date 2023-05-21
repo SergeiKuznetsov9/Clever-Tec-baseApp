@@ -1,31 +1,13 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { toggleFilter } from "../../actions";
-
-// Задача для этого компонента:
-// Фильтры должны формироваться на основании загруженных данных
-// Фильтры должны отображать только нужных героев при выборе
-// Активный фильтр имеет класс active
+import { addFilterThunk } from "../../actions";
 
 export const HeroesFilters = () => {
-  const { filters, activeFilters } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { filters, activeFilters } = useSelector((state) => state.filters);
 
   const addFilter = (filterName) => {
-    if (filterName === "all") {
-      toggleFilter(["all"]);
-      return;
-    }
-
-    const newActiveFilters = activeFilters.filter(
-      (filter) => filter !== "all" && filter !== filterName
-    );
-
-    if (activeFilters.indexOf(filterName) === -1)
-      newActiveFilters.push(filterName);
-
-    if (!newActiveFilters.length) newActiveFilters.push("all");
-
-    toggleFilter(newActiveFilters);
+    dispatch(addFilterThunk({ filterName, activeFilters }));
   };
 
   return (

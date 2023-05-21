@@ -1,31 +1,21 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { useHttp } from "../../hooks/http.hook";
 import { HeroesList } from "../heroesList/HeroesList";
 import { HeroesFilters } from "../heroesFilters/HeroesFilters";
 import { HeroesAddForm } from "../heroesAddForm/HeroesAddForm";
-import {
-  heroesFetched,
-  heroesFetching,
-  heroesFetchingError,
-  optionsFetched,
-} from "../../actions";
+import { fetchFiltersThunk } from "../../actions";
+import { fetchHeroesThunk } from "../../actions";
 import "./app.scss";
 
 export const App = () => {
+  const dispatch = useDispatch();
   const { request } = useHttp();
 
   useEffect(() => {
-    request("http://localhost:3001/filters")
-      .then((data) => {
-        optionsFetched(data);
-      })
-      .catch(() => console.log("Произошла ошибка загрузки"));
-
-    heroesFetching();
-    request("http://localhost:3001/heroes")
-      .then((data) => heroesFetched(data))
-      .catch(() => heroesFetchingError());
+    dispatch(fetchFiltersThunk(request));
+    dispatch(fetchHeroesThunk(request));
 
     // eslint-disable-next-line
   }, []);

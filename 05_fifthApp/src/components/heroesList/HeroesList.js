@@ -1,42 +1,37 @@
 import { useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
 
 import { useHttp } from "../../hooks/http.hook";
 import { HeroesListItem } from "../heroesListItem/HeroesListItem";
-import { heroRemoving, heroRemoved, heroRemovingError } from "../../actions";
 import { Spinner } from "../spinner/Spinner";
-
-// Задача для этого компонента:
-// При клике на "крестик" идет удаление персонажа из общего состояния
-// Усложненная задача:
-// Удаление идет и с json файла при помощи метода DELETE
+import { heroRemovingThunk } from "../../actions";
 
 export const HeroesList = () => {
-  const { heroesLoadingStatus, activeFilters } = useSelector((state) => state);
-  const heroes = useSelector((state) => {
-    if (activeFilters[0] === "all") {
-      return state.heroes;
-    }
-
-    return state.heroes.filter((hero) => activeFilters.includes(hero.element));
-  });
+  const dispatch = useDispatch();
   const { request } = useHttp();
+
+  const { heroesLoadingStatus } = useSelector((state) => state.heroes);
+
+  const filteredHeroesSelector = createSelector(
+    (state) => state.filters.activeFilters,
+    (state) => state.heroes.heroes,
+    (filters, heroes) => {
+      if (filters[0] === "all") {
+        return heroes;
+      }
+      return heroes.filter((hero) => filters.includes(hero.element));
+    }
+  );
+
+  const heroes = useSelector(filteredHeroesSelector);
 
   const onDelete = useCallback(
     (id) => {
-      heroRemoving();
-      request(`http://localhost:3001/heroes/${id}`, "DELETE")
-        .then(() => {
-          const newHeroesArray = heroes.filter((hero) => hero.id !== id);
-          heroRemoved(newHeroesArray);
-        })
-        .catch(() => {
-          console.log("Произошла ошибка удаления");
-          heroRemovingError();
-        });
+      dispatch(heroRemovingThunk({ id, request, heroes }));
     },
 
-    [request, heroes]
+    [request, heroes, dispatch]
   );
 
   if (heroesLoadingStatus === "loading") {
