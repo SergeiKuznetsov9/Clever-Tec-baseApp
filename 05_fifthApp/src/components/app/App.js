@@ -5,9 +5,10 @@ import { useHttp } from "../../hooks/http.hook";
 import { HeroesList } from "../heroesList/HeroesList";
 import { HeroesFilters } from "../heroesFilters/HeroesFilters";
 import { HeroesAddForm } from "../heroesAddForm/HeroesAddForm";
-import { fetchFiltersThunk } from "../../actions";
-import { fetchHeroesThunk } from "../../actions";
+import { fetchFiltersThunk } from "../../store/thunk/filters-thunk";
+import { fetchHeroesThunk } from "../../store/thunk/heroes-thunk";
 import "./app.scss";
+
 
 export const App = () => {
   const dispatch = useDispatch();

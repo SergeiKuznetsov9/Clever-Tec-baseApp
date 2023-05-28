@@ -1,14 +1,14 @@
 import {
-  heroCreated,
-  heroCreating,
-  heroCreatingError,
-  heroRemoved,
-  heroRemoving,
-  heroRemovingError,
-  heroesFetched,
   heroesFetching,
+  heroesFetched,
   heroesFetchingError,
-} from "./heroes-actions";
+  heroCreating,
+  heroCreated,
+  heroCreatingError,
+  heroRemoving,
+  heroRemoved,
+  heroRemovingError,
+} from "../slices/heroesSlice";
 
 export const fetchHeroesThunk = (request) => (dispatch) => {
   dispatch(heroesFetching());

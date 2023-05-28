@@ -1,8 +1,8 @@
-import { optionsFetched, toggleFilter } from "./filters-actions";
+import { elementOptionsFetched, toggleFilter } from "../slices/filtersSlice";
 
 export const fetchFiltersThunk = (request) => (dispatch) => {
   request("http://localhost:3001/filters")
-    .then((data) => dispatch(optionsFetched(data)))
+    .then((data) => dispatch(elementOptionsFetched(data)))
     .catch(() => console.log("Произошла ошибка загрузки"));
 };
 

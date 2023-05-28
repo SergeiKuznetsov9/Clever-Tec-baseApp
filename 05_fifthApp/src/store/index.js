@@ -1,12 +1,8 @@
-import { legacy_createStore as createStore, combineReducers, applyMiddleware } from "redux";
-import { heroes } from "../reducers/heroes";
-import { filters } from "../reducers/filters";
-import ReduxThunk from 'redux-thunk';
+import { configureStore } from "@reduxjs/toolkit";
 
-const store = createStore(  
-  combineReducers({heroes, filters}),
-  applyMiddleware(ReduxThunk),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import heroesReducer from './slices/heroesSlice'
+import filtersReducer from './slices/filtersSlice'
 
-export default store;
+export const store = configureStore({
+  reducer: {heroesReducer, filtersReducer},
+})
