@@ -1,3 +1,5 @@
+import { actionTypes } from "./actionTypes";
+
 const initialState = {
     heroes: [],
     heroesLoadingStatus: "idle",
@@ -8,52 +10,52 @@ const initialState = {
   export const heroes = (state = initialState, action) => {
     switch (action.type) {
 
-        case "HEROES_FETCHING":
+        case actionTypes.heroesFetching:
         return {
           ...state,
           heroesLoadingStatus: "loading",
         };
-      case "HEROES_FETCHED":
+      case actionTypes.heroesFetched:
         return {
           ...state,
           heroes: action.payload,
           heroesLoadingStatus: "idle",
         };
-      case "HEROES_FETCHING_ERROR":
+      case actionTypes.heroesFetchingError:
         return {
           ...state,
           heroesLoadingStatus: "error",
         };
   
-      case "HERO_CREATING":
+      case actionTypes.heroeCreating:
         return {
           ...state,
           heroCreatingStatus: "loading",
         };
-      case "HERO_CREATED":
+      case actionTypes.heroeCreated:
         return {
           ...state,
           heroes: [...state.heroes, action.payload],
           heroCreatingStatus: "idle",
         };
-      case "HERO_CREATING_ERROR":
+      case actionTypes.heroeCreatingError:
         return {
           ...state,
           heroCreatingStatus: "error",
         };
   
-      case "HERO_REMOVING":
+      case actionTypes.heroeRemoving:
         return {
           ...state,
           heroRemovingStatus: "loading",
         };
-      case "HERO_REMOVED":
+      case actionTypes.heroeRemoved:
         return {
           ...state,
           heroes: [...action.payload],
           heroRemovingStatus: "idle",
         };
-      case "HERO_REMOVING_ERROR":
+      case actionTypes.heroeRemovingError:
         return {
           ...state,
           heroRemovingStatus: "error",

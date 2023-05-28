@@ -1,15 +1,10 @@
+import { optionsFetched, toggleFilter } from "./filters-actions";
+
 export const fetchFiltersThunk = (request) => (dispatch) => {
   request("http://localhost:3001/filters")
     .then((data) => dispatch(optionsFetched(data)))
     .catch(() => console.log("Произошла ошибка загрузки"));
 };
-
-const optionsFetched = (options) => ({
-  type: "ELEMENT_OPTIONS_FETCHED",
-  payload: options,
-});
-
-
 
 export const addFilterThunk =
   ({ filterName, activeFilters }) =>
@@ -30,8 +25,3 @@ export const addFilterThunk =
 
     dispatch(toggleFilter(newActiveFilters));
   };
-
-const toggleFilter = (filter) => ({
-  type: "TOGGLE_FILTER",
-  payload: filter,
-});
