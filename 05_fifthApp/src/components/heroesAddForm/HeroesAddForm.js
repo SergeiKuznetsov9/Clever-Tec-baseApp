@@ -1,17 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../../hooks/http.hook";
-import { heroCreating, heroCreated, heroCreatingError } from "../../actions";
-
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uuid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> сформировать на базе данных из фильтров (без Все)
+import { heroCreatingThunk } from "../../store/thunk/heroes-thunk";
+import { elementOptionsSelector } from "../../store/selectors/heroes-selectors";
 
 const defaultValues = {
   name: "",
@@ -20,11 +12,10 @@ const defaultValues = {
 };
 
 export const HeroesAddForm = () => {
-  const elementOptions = useSelector((state) =>
-    state.filters.filter((option) => option.name !== "all")
-  );
-
+  const dispatch = useDispatch();
   const { request } = useHttp();
+
+  const elementOptions = useSelector(elementOptionsSelector);
 
   const {
     register,
@@ -35,16 +26,8 @@ export const HeroesAddForm = () => {
 
   const onSubmit = async (data) => {
     data.id = uuidv4();
-    heroCreating();
-    request("http://localhost:3001/heroes", "POST", JSON.stringify(data))
-      .then((res) => {
-        reset();
-        heroCreated(res);
-      })
-      .catch(() => {
-        console.log("Возникла ошибка создания");
-        heroCreatingError();
-      });
+
+    dispatch(heroCreatingThunk({ request, data, reset }));
   };
 
   return (
