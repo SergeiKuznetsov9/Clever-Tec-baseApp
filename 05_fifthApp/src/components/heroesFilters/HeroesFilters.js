@@ -1,10 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
-import { addFilterThunk } from "../../actions";
+import { addFilterThunk } from "../../store/actions";
+import {
+  activeFiltersSelector,
+  filtersSelector,
+} from "../../store/selectors/filters-selectors";
 
 export const HeroesFilters = () => {
   const dispatch = useDispatch();
-  const { filters, activeFilters } = useSelector((state) => state.filters);
+  const filters = useSelector(filtersSelector);
+  const activeFilters = useSelector(activeFiltersSelector);
 
   const addFilter = (filterName) => {
     dispatch(addFilterThunk({ filterName, activeFilters }));

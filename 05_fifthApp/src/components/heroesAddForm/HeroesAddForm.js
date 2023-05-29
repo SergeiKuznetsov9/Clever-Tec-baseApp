@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../../hooks/http.hook";
-import { heroCreatingThunk } from "../../actions";
+import { heroCreatingThunk } from "../../store/actions";
+import { elementOptionsSelector } from "../../store/selectors/filters-selectors";
 
 const defaultValues = {
   name: "",
@@ -14,9 +15,7 @@ export const HeroesAddForm = () => {
   const dispatch = useDispatch();
   const { request } = useHttp();
 
-  const elementOptions = useSelector((state) =>
-    state.filters.filters.filter((option) => option.name !== "all")
-  );
+  const elementOptions = useSelector(elementOptionsSelector);
 
   const {
     register,
