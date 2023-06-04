@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import { addFilterThunk } from "../../store/thunk/filters-thunk";
-import {
-  activeFiltersSelector,
-  filtersSelector,
-} from "../../store/selectors/filters-selectors";
+import { activeFiltersSelector } from "../../store/selectors/filters-selectors";
+import { useGetFiltersQuery } from "../../store/rtkQuery/filtersQuerySlice";
 
 export const HeroesFilters = () => {
-  const dispatch = useDispatch();
-  const filters = useSelector(filtersSelector);
+  const { data: elements = [] } = useGetFiltersQuery();
   const activeFilters = useSelector(activeFiltersSelector);
+  const dispatch = useDispatch();
 
   const addFilter = (filterName) => {
     dispatch(addFilterThunk({ filterName, activeFilters }));
@@ -20,15 +18,15 @@ export const HeroesFilters = () => {
       <div className="card-body">
         <p className="card-text">Отфильтруйте героев по элементам</p>
         <div className="btn-group">
-          {filters.map((filter) => (
+          {elements.map((element) => (
             <button
-              key={filter.name}
-              className={classNames(`btn ${filter.className}`, {
-                active: activeFilters.includes(filter.name),
+              key={element.name}
+              className={classNames(`btn ${element.className}`, {
+                active: activeFilters.includes(element.name),
               })}
-              onClick={() => addFilter(filter.name)}
+              onClick={() => addFilter(element.name)}
             >
-              {filter.label}
+              {element.label}
             </button>
           ))}
         </div>
