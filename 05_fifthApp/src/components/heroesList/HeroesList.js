@@ -1,36 +1,28 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useMemo } from "react";
+import { useSelector } from "react-redux";
 
-import { useHttp } from "../../hooks/http.hook";
+import {
+  useDeleteHeroMutation,
+  useGetHeroesQuery,
+} from "../../store/rtkQuery/heroesQuerySlice";
+import { activeFiltersSelector } from "../../store/selectors/filters-selectors";
 import { HeroesListItem } from "../heroesListItem/HeroesListItem";
 import { Spinner } from "../spinner/Spinner";
-import { heroRemovingThunk } from "../../store/thunk/heroes-thunk";
-import {
-  filteredHeroesSelector,
-  heroesLoadingStatusSelector,
-} from "../../store/selectors/heroes-selectors";
 
 export const HeroesList = () => {
-  const dispatch = useDispatch();
-  const { request } = useHttp();
+  const { data: heroes = [], isLoading, isError } = useGetHeroesQuery();
+  const [deleteHero] = useDeleteHeroMutation();
 
-  const heroesLoadingStatus = useSelector(heroesLoadingStatusSelector);
+  const activeFilters = useSelector(activeFiltersSelector);
+  const filteredHeroes = useMemo(() => {
+    if (activeFilters[0] === "all") {
+      return heroes;
+    }
 
-  const heroes = useSelector(filteredHeroesSelector);
+    return heroes.filter((hero) => activeFilters.includes(hero.element));
+  }, [activeFilters, heroes]);
 
-  const onDelete = useCallback(
-    (id) => {
-      dispatch(heroRemovingThunk({ id, request, heroes }));
-    },
-
-    [request, heroes, dispatch]
-  );
-
-  if (heroesLoadingStatus === "loading") {
-    return <Spinner />;
-  } else if (heroesLoadingStatus === "error") {
-    return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
-  }
+  const onDelete = useCallback((id) => deleteHero(id), [deleteHero]);
 
   const renderHeroesList = (arr) => {
     if (arr.length === 0) {
@@ -43,7 +35,9 @@ export const HeroesList = () => {
       );
     });
   };
+  const elements = renderHeroesList(filteredHeroes);
 
-  const elements = renderHeroesList(heroes);
+  if (isLoading) return <Spinner />;
+  if (isError) return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
   return <ul>{elements}</ul>;
 };

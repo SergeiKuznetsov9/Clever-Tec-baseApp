@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { useHttp } from "../../hooks/http.hook";
-import { heroCreatingThunk } from "../../store/thunk/heroes-thunk";
-import { elementOptionsSelector } from "../../store/selectors/heroes-selectors";
+
+import { useCreateHeroMutation } from "../../store/rtkQuery/heroesQuerySlice";
+import { useGetFiltersQuery } from "../../store/rtkQuery/filtersQuerySlice";
 
 const defaultValues = {
   name: "",
@@ -12,11 +12,6 @@ const defaultValues = {
 };
 
 export const HeroesAddForm = () => {
-  const dispatch = useDispatch();
-  const { request } = useHttp();
-
-  const elementOptions = useSelector(elementOptionsSelector);
-
   const {
     register,
     handleSubmit,
@@ -24,10 +19,18 @@ export const HeroesAddForm = () => {
     formState: { errors },
   } = useForm({ defaultValues, mode: "all" });
 
+  const [createHero] = useCreateHeroMutation();
+
+  const { data: elements = [] } = useGetFiltersQuery();
+  const getElementOptions = useMemo(
+    () => elements.filter((element) => element.name !== "all"),
+    [elements]
+  );
+
   const onSubmit = async (data) => {
     data.id = uuidv4();
-
-    dispatch(heroCreatingThunk({ request, data, reset }));
+    createHero(data).unwrap();
+    reset();
   };
 
   return (
@@ -89,7 +92,7 @@ export const HeroesAddForm = () => {
           <option value="" disabled>
             Выбери элемент...
           </option>
-          {elementOptions.map((option) => (
+          {getElementOptions.map((option) => (
             <option key={option.name} value={option.name}>
               {option.label}
             </option>
