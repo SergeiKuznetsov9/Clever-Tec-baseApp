@@ -1,9 +1,8 @@
-import { legacy_createStore as createStore } from "redux";
-import { reducer } from "../reducers";
+import { configureStore } from "@reduxjs/toolkit";
 
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import heroesReducer from "./slices/heroesSlice";
+import filtersReducer from "./slices/filtersSlice";
 
-export default store;
+export const store = configureStore({
+  reducer: { heroesReducer, filtersReducer },
+});
